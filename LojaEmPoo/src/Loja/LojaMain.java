@@ -20,11 +20,12 @@ public class LojaMain
 		c1.setCpf(leia.next());
 		c1.boasVindas(c1.getSexo(),c1.getNome(),c1.getNascimento());
 		Produto prod = new Produto();
+		do 
+		{
 		prod.menuOp();
 		op = leia.next();
 		
-		do 
-		{
+		
 		switch(op)
 		{
 		case "g1" :int op1  = 0; 

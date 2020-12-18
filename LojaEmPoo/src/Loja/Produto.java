@@ -6,7 +6,7 @@ public class Produto
 {
 	Scanner leia = new Scanner(System.in);
 	private int estoqueVbucks = 10;
-	private int vBucks800 = 2;
+	private int vBucks800 = ;
 	private int vBucks1000 = 2;
 	private int vBucks1200 = 2;
 	private int vBucks1800 = 2;
@@ -17,31 +17,30 @@ public class Produto
 	//Métodos 
 	public void comprar800(int op)
 	{
-		System.out.println("Deseja prosseguir com a compra [1]-SIM [2]- NÃO : ");
-		op = leia.nextInt();
-		
-			{
-		if(op == 1)
-			{
-			if(vBucks800>0)
-			{
-			System.out.println("Voce acaba de comprar um pacote com 800 vBucks");
-		    totalVbucks = ( vBucks800 - 1);
-		    System.out.println("Estoque atual de "+ totalVbucks);
-			
-			
-			}
-		else if(op==2)
-			{
-			
-			}
-		else
-		    {
-			System.out.println(" Sinto muito, nosso estoque acabou !!!");
-		    }
-			menuOp();
-			}
-	   }
+				System.out.println("Deseja prosseguir com a compra [1]-SIM [2]- NÃO : ");
+				op = leia.nextInt();
+				
+					{
+				if(op == 1)
+					{
+					if(vBucks800>0)
+					{
+					totalVbucks = ( vBucks800 - 1);
+					System.out.println("Voce acaba de comprar um pacote com 800 vBucks");
+					System.out.println("Estoque atual de "+ totalVbucks);
+					
+					
+					}
+				else if(vBucks800>0)
+					{
+					System.out.println("Sem estoque");
+					}
+				
+					}else
+					{
+						
+					}
+				}
 			
 		
 	}
@@ -59,8 +58,6 @@ public class Produto
 			System.out.println("Voce acaba de comprar um pacote com 1000 vBucks");
 		    totalVbucks = (vBucks1000 - 1);
 		    System.out.println("Estoque atual de "+totalVbucks);
-			
-			
 			}
 		else if(op==2)
 			{
@@ -71,7 +68,7 @@ public class Produto
 			System.out.println(" Sinto muito, nosso estoque acabou !!!");
 		    }
 			}
-			menuOp();
+			
 	   }
 			
 	}
@@ -95,7 +92,7 @@ public class Produto
 		    {
 			System.out.println(" Sinto muito, nosso estoque acabou !!!");
 		    }
-			menuOp();
+			
 	   }
 			
 		
@@ -122,7 +119,7 @@ public class Produto
 		    {
 			System.out.println(" Sinto muito, nosso estoque acabou !!!");
 		    }
-			menuOp();
+			
 	   }
 			
 		
@@ -149,7 +146,7 @@ public class Produto
 		    {
 			System.out.println(" Sinto muito, nosso estoque acabou !!!");
 		    }
-			menuOp();
+			
 	   }
 			
 		
