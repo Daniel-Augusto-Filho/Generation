@@ -4,14 +4,26 @@ public abstract class Conta {
 
 	protected int numeroConta;
 	protected double saldo;
-	protected String CPF;
+	protected String cpf;
 
 	public Conta() {
-
+		
 	}
 	
-	public double getSaldo() {
-		return saldo;
+	public Conta(String cpf) {
+		super();
+		this.cpf = cpf;
+	}
+
+	public Conta(int numeroConta) {
+		super();
+		this.numeroConta = numeroConta;
+	}
+
+	public Conta(int numeroConta, String cpf) {
+		super();
+		this.numeroConta = numeroConta;
+		this.cpf = cpf;
 	}
 
 	public int getNumeroConta() {
@@ -22,51 +34,56 @@ public abstract class Conta {
 		this.numeroConta = numeroConta;
 	}
 
-	public String getCPF() {
-		return CPF;
+	public double getSaldo() {
+		return saldo;
 	}
 
-	public void setCPF(String cPF) {
-		CPF = cPF;
+	public String getCpf() {
+		return cpf;
 	}
 
-	public Conta(int numeroConta) {
-		this.numeroConta = numeroConta;
-	}
-
-	public Conta(int numeroConta, String CPF) {
-		this.numeroConta = numeroConta;
-		this.CPF = CPF;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public void debito(double valorDebito) {
-		if (testaSaldo(valorDebito) && valorDebito > 0) {
-			this.saldo -= valorDebito;
+		if (testarSaldo(valorDebito)) {
+			this.saldo = this.saldo - valorDebito;
+			System.out.printf("Valor R$ %.2f Debitado!\n", valorDebito);
+			System.out.println("Saldo atual da conta é R$"+this.saldo);
 		} else {
-			System.out.println("Valor maior que o saldo ou negativo!");
+			System.out.println("Saldo insuficiente!");
 		}
+
 	}
 
 	public void credito(double valorCredito) {
-		if(valorCredito > 0) {
-		this.saldo += valorCredito;
-		}else {
-			System.out.println("Digite um valor maior que 0");
-		}
+		this.saldo = this.saldo + valorCredito;
+		System.out.printf("Valor R$ %.2f creditado!\n", valorCredito);
+
+	}
+
+	public void pixDebito(double valorDebitoPix) {
+		this.saldo = this.saldo - valorDebitoPix;
+	}
+
+	public void pixCredito(double valorCreditoPix) {
+		this.saldo = this.saldo - valorCreditoPix;
 	}
 	
-	public boolean testaSaldo(double valorDebito) {
-		if(this.saldo > valorDebito ) {
-			return true;
+	
+	public boolean testarSaldo(double valor) {
+		
+		boolean teste;
+		if(valor<=this.saldo) {
+			teste=true;
 		}
 		else {
-			return false;
+			teste=false;
+			
 		}
+		return teste;
 		
 	}
-	
 
-	
-	
-	
 }

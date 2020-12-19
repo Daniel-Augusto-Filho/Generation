@@ -1,226 +1,414 @@
 package bancos;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Scanner;
 
+
+
 public class BancoTeste {
+
 	public static void main(String[] args) {
-		Scanner t = new Scanner(System.in);
+		Scanner leia = new Scanner(System.in);
+		 Menu mn = new Menu();
 
 		char op;
 		char saida;
-		int numeroConta = 0;
-		double valorLimite = 5000;
-		double emprestimo = 5000;
-		double emprestimoUniversitario = 5000;
-		final int QTDMOVIMENTO = 2;
-	
+		int numeroConta = 1; 
+		int contador = 0;
+		int quantidadeMovimentacao = 10;
+		int movimentacaoDisponivel = 0;
+		char opcaoTipo, opcaoMov;
+		int diaUsuario = 0;
+		int continuar;
 
-		System.out.println("--------- G5-BANK ----------");
-		for(int x =0;x<11;x++)
-		{
-			Menu menu = new Menu();
-			menu.menuEntrada();
-			op = t.next().charAt(0);
+		List<ContaCorrente> corrente = new ArrayList<>();
+		List<ContaEmpresa> empresa = new ArrayList<>();
+		List<ContaEspecial> especial = new ArrayList<>();
+		List<ContaPoupanca> poupanca = new ArrayList<>();
+		List<ContaUniversitaria> universitaria = new ArrayList<>();
+		
+		do {
+			mn.menuEntrada();
+			op = leia.next().charAt(0);
 			if (op == '1') {
 				
-				menu.menuPrincipal();
-				char opconta = t.next().charAt(0);
-				numeroConta++;
+				mn.menuPrincipal();
+				char opconta = leia.next().charAt(0);
+
 				System.out.println("Digite o seu CPF:");
-				String cpfConta = t.next();
+				String cpfConta = leia.next();
 				switch (opconta) {
-				case '1': {
-					System.out.println("Digite a data de aniversario da conta: ");
-					int dataAniversario = t.nextInt();
-					ContaPoupanca poupanca = new ContaPoupanca(numeroConta, cpfConta, dataAniversario);
-
-					for (int i = 0; i < QTDMOVIMENTO; i++) {
-						System.out.println("QUAL OPERAÇÃO DESEJA FAZER? R$");
-						System.out.println("[D]-DÉBITO \\ [C]-CRÉDITO ");
-						char opcao = t.next().toUpperCase().charAt(0);
-
-						if (opcao == 'D') {
-
-							System.out.println("INSIRA O VALOR DO DÉBITO");
-							double valor = t.nextDouble();
-							poupanca.debito(valor);
-							System.out.println("Saldo Atual: " + poupanca.getSaldo());
-
-						} else if (opcao == 'C') {
-							System.out.println("INSIRA O VALOR DO CRÉDITO");
-							double valor = t.nextDouble();
-							poupanca.credito(valor);
-
-							System.out.println("Saldo Atual: " + poupanca.getSaldo());
-						} else {
-							System.out.println("Insira um comando válido!! [D]-DÉBITO \\\\ [C]-CRÉDITO");
-
-						}
-
-					}
-					System.out.println("DIGITE O DIA DE HOJE!");
-					int dia = t.nextInt();
-					poupanca.comparacaoData(dia);
-
+				case '1': 
+				{
+					
+					Calendar dia = GregorianCalendar.getInstance();
+					int dataAniversario = dia.get(Calendar.DAY_OF_MONTH);
+					
+					poupanca.add(new ContaPoupanca(numeroConta, cpfConta, dataAniversario));
+					numeroConta++;
 				}
 					break;
 
 				case '2': {
-					ContaCorrente corrente = new ContaCorrente(numeroConta, cpfConta);
-					
-					for (int i = 0; i < QTDMOVIMENTO; i++) {
-						System.out.println("QUAL OPERAÇÃO DESEJA FAZER? R$");
-						System.out.println("[D]-DÉBITO \\ [C]-CRÉDITO \\ [T]- TALÃO");
-						char opcao = t.next().toUpperCase().charAt(0);
 
-						if (opcao == 'D') {
-
-							System.out.println("INSIRA O VALOR DO DÉBITO");
-							double valor = t.nextDouble();
-							corrente.debito(valor);
-							System.out.println("Saldo Atual: " + corrente.getSaldo());
-							
-
-						} else if (opcao == 'C') {
-							System.out.println("INSIRA O VALOR DO CRÉDITO");
-							double valor = t.nextDouble();
-							corrente.credito(valor);
-
-							System.out.println("Saldo Atual: " + corrente.getSaldo());
-						}
-						else if(opcao == 'T')
-						{
-							corrente.talao(numeroConta, opcao);
-						}
-						else 
-						{
-							System.out.println("Insira um comando válido!! [D]-DÉBITO \\\\ [C]-CRÉDITO");
-
-						}
-						
-					}
-					
-					
+					corrente.add(new ContaCorrente(numeroConta, cpfConta));
+					numeroConta++;
 				}
 					break;
 
-				case '3': {
-					ContaEspecial especial = new ContaEspecial(numeroConta, cpfConta, valorLimite);
+				case '3': 
+				{
+
+					System.out.println("Obrigado por usar o G5- BANK ");
 					
-					for (int i = 0; i < QTDMOVIMENTO; i++) {
-						System.out.println("QUAL OPERAÇÃO DESEJA FAZER? R$");
-						System.out.println("[D]-DÉBITO \\ [C]-CRÉDITO ");
-						char opcao = t.next().toUpperCase().charAt(0);
-
-						if (opcao == 'D') {
-
-							System.out.println("INSIRA O VALOR DO DÉBITO");
-							double valor = t.nextDouble();
-							especial.debito(valor);
-							System.out.println("Saldo Atual: " + especial.getSaldo());
-							
-
-						} else if (opcao == 'C') {
-							System.out.println("INSIRA O VALOR DO CRÉDITO");
-							double valor = t.nextDouble();
-							especial.credito(valor);
-
-							System.out.println("Saldo Atual: " + especial.getSaldo());
-						} else {
-							System.out.println("Insira um comando válido!! [D]-DÉBITO \\\\ [C]-CRÉDITO");
-
-						}
-						
-					}
-				}
-					break;
+				}	
+				break;
 
 				case '4': {
-					ContaEmpresa empresa = new ContaEmpresa(numeroConta, emprestimo);
+
+		
+
+				}
+					break;
 					
-					for (int i = 0; i < QTDMOVIMENTO; i++) {
-						System.out.println("QUAL OPERAÇÃO DESEJA FAZER? R$");
-						System.out.println("[D]-DÉBITO \\ [C]-CRÉDITO \\ [E]- EMPRÉSTIMO ");
-						char opcao = t.next().toUpperCase().charAt(0);
+				default:
+					System.out.println("OpÃ§Ã£o invÃ¡lida, tente novamente!");
+				
 
-						if (opcao == 'D') {
+				/*
+				 * case '5': {
+				 * 
+				 * universitaria.add(new ContaUniversitaria(numeroConta, cpfConta, 2000, 5000));
+				 * 
+				 * } break;
+				 */
 
-							System.out.println("INSIRA O VALOR DO DÉBITO");
-							double valor = t.nextDouble();
-							empresa.debito(valor);
-							System.out.println("Saldo Atual: " + empresa.getSaldo());
+				}
 
-						} else if (opcao == 'C') {
-							System.out.println("INSIRA O VALOR DO CRÉDITO");
-							double valor = t.nextDouble();
-							empresa.credito(valor);
+			} else if (op == '2') 
+			{
+				String tipo = " ";
+				boolean busca = false;
+				System.out.println("Digite o nÃºmero do cpf: ");
+				String numero = leia.next();
+				mn.menuPrincipal();
+				int opcao = leia.nextInt();
+				switch (opcao) {
+				case 1: {
 
-							System.out.println("Saldo Atual: " + empresa.getSaldo());
-						}
-						else if (opcao == 'E')
+					for (ContaPoupanca conta : poupanca) 
+					{
+						if (numero.equals(conta.getCpf()))
 						{
-							empresa.emprestar(valorEmprestimo);
+							busca=true;
+							
+								System.out.println("SEU SALDO Ã‰ DE :" +conta.getSaldo());
+							
+							System.out.printf("DIA DO ANIVERSÃRIO DA SUA CONTA: %d", conta.getDataAniversarioConta());
+							System.out.print("\nINFORME O DIA DE HOJE: ");
+							diaUsuario = leia.nextInt();
+
+							System.out.println("CONTINUAR :[S]-Sim ou [N]-NÃ£o ");
+							
+							opcaoMov = leia.next().toUpperCase().charAt(0);
+							while (opcaoMov == 'S') 
+							{
+
+								for (int x = 0; x < quantidadeMovimentacao; x++) {
+
+									movimentacaoDisponivel = quantidadeMovimentacao - x;
+									System.out.printf("\nTransaÃ§Ãµes "+movimentacaoDisponivel);
+									   
+									    mn.menuPrincipal();
+									
+									opcaoTipo = leia.next().toUpperCase().charAt(0);
+
+									if (opcaoTipo == 'D') {
+										System.out.print("\n DÃ‰BITO :  R$ ");
+										conta.debito(leia.nextDouble());
+									} else if (opcaoTipo == 'C') {
+										System.out.print("\nCRÃ‰DITO :  R$ ");
+										conta.credito(leia.nextDouble());
+									} else if (opcaoTipo == 'S') {
+										System.out.printf("AGRADEÃ‡EMOS A SUA VINDA\n");
+										break;
+									}
+
+									System.out.println("CONTINUAR :[S]-Sim ou [N]-NÃ£o ");
+									opcaoMov = leia.next().toUpperCase().charAt(0);
+									while (opcaoMov != 'S' && opcaoMov != 'N') {
+									System.out.println(" OPÃ‡ÃƒO INVÃLIDA ");
+									opcao = leia.next().toUpperCase().charAt(0);
+									}
+									if (opcaoMov == 'N') {
+										break;
+									} else {
+										System.out.print("\nIndo para prÃ³xima transaÃ§Ã£o");
+									}
+
+								}
+
+							}
 						}
-						else {
-							System.out.println("Insira um comando válido!! ");
+
+						if (diaUsuario == conta.getDataAniversarioConta()) 
+						{
+							conta.saldo = 1.005 * conta.saldo;
+							System.out.printf("ParabÃ©ns pra vc nesta data querida seu saldo atual Ã© de : R$ %.2f\n", conta.saldo);
 						}
-						
+
 					}
-					
-					System.out.println("DESEJA FAZER UM EMPRESTIMO?");
-					double valorEmprestimo = t.nextDouble();				
-					empresa.emprestar(valorEmprestimo);
-					
+					if(busca==false) {
+						System.out.println("PESSOA NÃƒO POSSUI CONTA ABERTA");
+					}
+
 				}
 					break;
 
-				case '5': {
-					ContaUniversitaria universitaria = new ContaUniversitaria(numeroConta, cpfConta, valorLimite,
-							emprestimoUniversitario);
-					
-					for (int i = 0; i < QTDMOVIMENTO; i++) {
-						System.out.println("QUAL OPERAÇÃO DESEJA FAZER? R$");
-						System.out.println("[D]-DÉBITO \\ [C]-CRÉDITO ");
-						char opcao = t.next().toUpperCase().charAt(0);
+				case 2: {
 
-						if (opcao == 'D') {
-
-							System.out.println("INSIRA O VALOR DO DÉBITO");
-							double valor = t.nextDouble();
-							universitaria.debito(valor);
-							System.out.println("Saldo Atual: " + universitaria.getSaldo());
-
-						} else if (opcao == 'C') {
-							System.out.println("INSIRA O VALOR DO CRÉDITO");
-							double valor = t.nextDouble();
-							universitaria.credito(valor);
-
-							System.out.println("Saldo Atual: " + universitaria.getSaldo());
-						} else {
-							System.out.println("Insira um comando válido!! [D]-DÉBITO \\\\ [C]-CRÉDITO");
-
-						}
+					for (ContaCorrente conta : corrente) 
+					{
+						if (numero.equals(conta.getCpf())) 
+						{
+							busca=true;
+							System.out.println("SEU SALDO Ã‰ DE :" +conta.getSaldo());
+							System.out.println("CONTINUAR :[S]-Sim ou [N]-NÃ£o ");
 						
+
+							opcaoMov = leia.next().toUpperCase().charAt(0);
+							while (opcaoMov == 'S') {
+
+								for (int x = 0; x < quantidadeMovimentacao; x++) {
+
+									movimentacaoDisponivel = quantidadeMovimentacao - x;
+									System.out.printf("\nVocÃª possui %d transaÃ§Ãµes disponiveis",
+											movimentacaoDisponivel);
+									System.out.println();
+									System.out.printf("\nO que vocÃª deseja fazer: [D]-DÃ©bito, [C]-CrÃ©dito , [T]-TalÃ£o ou [S]-Sair");
+									System.out.print("\nOpÃ§Ã£o: ");
+									opcaoTipo = leia.next().toUpperCase().charAt(0);
+
+									if (opcaoTipo == 'D') {
+										System.out.print("\nInforme quanto gostaria debitar:  R$ ");
+										conta.debito(leia.nextDouble());
+									} else if (opcaoTipo == 'C') {
+										System.out.print("\nInforme quanto gostaria creditar:  R$ ");
+										conta.credito(leia.nextDouble());
+									}else if (opcaoTipo=='T') {
+										System.out.printf("%d TalÃµes disponÃ­veis \n",conta.talaoRestante());
+										
+										if(conta.talaoRestante() != 0) {
+											System.out.printf(" Vai um talÃ£ozin ? [S]-Sim ou [N]-NÃ£o ");
+											continuar = leia.nextInt();
+											
+											if(continuar == 1) {
+												conta.emitirTalao();
+											}	
+										}
+									}
+									else if (opcaoTipo == 'S') {
+										System.out.printf("To vazando \n");
+										break;
+									}
+
+									System.out.println("CONTINUAR :[S]-Sim ou [N]-NÃ£o ");
+									opcaoMov = leia.next().toUpperCase().charAt(0);
+
+									while (opcaoMov != 'S' && opcaoMov != 'N') {
+										System.out.println("CONTINUAR :[S]-Sim ou [N]-NÃ£o ");
+									opcao = leia.next().toUpperCase().charAt(0);
+									}
+									if (opcaoMov == 'N') {
+										break;
+									} else {
+										System.out.print("\n PrÃ³xima transaÃ§Ã£o");
+									}
+
+								}
+
+							}
+						}
+
 					}
 					
+					if(busca==false) {
+						System.out.println("PESSOA NÃƒO POSSUI CONTA ABERTA");
+					}
+
 				}
 					break;
+
+				case 3: {
+
+					for (ContaEspecial conta : especial) {
+						if (numero.equals(conta.getCpf())) {
+							busca=true;
+							System.out.println("SEU SALDO Ã‰ DE :" +conta.getSaldo());
+							System.out.println("CONTINUAR :[S]-Sim ou [N]-NÃ£o ");
+							System.out.print("\nOPÃ‡ÃƒO: ");
+
+							opcaoMov = leia.next().toUpperCase().charAt(0);
+							while (opcaoMov == 'S') {
+
+								for (int x = 0; x < quantidadeMovimentacao; x++) {
+
+									movimentacaoDisponivel = quantidadeMovimentacao - x;
+									System.out.printf("\nTransaÃ§Ãµes disponiveis",movimentacaoDisponivel);
+									System.out.println();
+									System.out.printf("\nO que vocÃª deseja fazer: [D]-DÃ©bito, [C]-CrÃ©dito, [T]-TalÃ£o ou [S]-Sair");
+									System.out.print("\nOpÃ§Ã£o: ");
+									opcaoTipo = leia.next().toUpperCase().charAt(0);
+
+									if (opcaoTipo == 'D') {
+										System.out.print("\nDebito   R$ ");
+										conta.debito(leia.nextDouble());
+									} else if (opcaoTipo == 'C') {
+										System.out.print("\nInforme quanto gostaria creditar:  R$ ");
+										conta.credito(leia.nextDouble());
+									}else if (opcaoTipo =='T') {
+										System.out.printf(" %d TalÃµes disponÃ­veis \n", conta.talaoRestante());
+										
+										if(conta.talaoRestante()!= 0) 
+										{
+											System.out.println("Vai um talÃ£ozin ? [S]-Sim ou [N]-NÃ£o ");
+											continuar = leia.nextInt();
+											
+											if(continuar == 1) {
+												conta.emitirTalao();
+											}	
+										}
+									}
+									
+									else if (opcaoTipo == 'S') {
+										System.out.printf("To vazando \n");
+										break;
+									}
+
+									System.out.println("CONTINUAR :[S]-Sim ou [N]-NÃ£o ");
+									System.out.print("\nOpÃ§Ã£o: ");
+									opcaoMov = leia.next().toUpperCase().charAt(0);
+
+									while (opcaoMov != 'S' && opcaoMov != 'N') {
+										System.out.println("CONTINUAR :[S]-Sim ou [N]-NÃ£o ");
+										System.out.print("\nOpÃ§Ã£o: ");
+										opcao = leia.next().toUpperCase().charAt(0);
+									}
+									if (opcaoMov == 'N') {
+										break;
+									} else {
+										System.out.print("\nPrÃ³xima transaÃ§Ã£o");
+									}
+
+								}
+
+							}
+						}
+
+					}
+					
+					if(busca==false) {
+						System.out.println("NÃ£o tem conta ? crie uma !!!");
+					}
+
+				}
+					break;
+
+				case 4: {
+
+					for (ContaEmpresa conta : empresa) {
+						if (numero.equals(conta.getCpf())) {
+
+							System.out.println("SEU SALDO Ã‰ DE :" +conta.getSaldo());
+							System.out.println("DESEJA INICIAR UMA MOVIMENTAÃ‡ÃƒO:[S]-Sim ou [N]-NÃ£o ");
+							System.out.print("\nOPÃ‡ÃƒO: ");
+
+							opcaoMov = leia.next().toUpperCase().charAt(0);
+							while (opcaoMov == 'S') {
+
+								for (int x = 0; x < quantidadeMovimentacao; x++) {
+
+									movimentacaoDisponivel = quantidadeMovimentacao - x;
+									System.out.printf("\nVocÃª possui %d transaÃ§Ãµes disponiveis",
+											movimentacaoDisponivel);
+									System.out.println();
+									System.out.printf("\n[D]-DÃ©bito, [C]-CrÃ©dito ou [S]-Sair");
+									opcaoTipo = leia.next().toUpperCase().charAt(0);
+
+									if (opcaoTipo == 'D') {
+										System.out.print("\nInforme quanto gostaria debitar:  R$ ");
+										conta.debito(leia.nextDouble());
+									} else if (opcaoTipo == 'C') {
+										System.out.print("\nInforme quanto gostaria creditar:  R$ ");
+										conta.credito(leia.nextDouble());
+									} else if (opcaoTipo == 'S') {
+										System.out.printf("saindo...\n");
+										break;
+									}
+
+									System.out.println("\nDeseja Continuar? [S]-Sim ou [N]-NÃ£o ");
+									System.out.print("\nOpÃ§Ã£o: ");
+									opcaoMov = leia.next().toUpperCase().charAt(0);
+
+									while (opcaoMov != 'S' && opcaoMov != 'N') {
+										System.out.println("Por favor digite [S] ou [N]. Tente novamente! ");
+										System.out.print("\nOpÃ§Ã£o: ");
+										opcao = leia.next().toUpperCase().charAt(0);
+									}
+									if (opcaoMov == 'N') {
+										break;
+									} else {
+										System.out.print("\nIndo para prÃ³xima transaÃ§Ã£o");
+									}
+
+								}
+
+							}
+						}
+
+					}
+
+				}
+					break;
+
+				/*
+				 * case 5: { System.out.println("Digite o seu CPF:");
+				 * 
+				 * } break;
+				 */
 				}
 
-			} else if (op == '2') {
-				System.out.println("wip");
-			} else {
+			}else if(op == '3') {
+				break;
+			}
+		
+			else {
+				while (op != '1' && op != '2' && op != '3') {
+					System.out.println("Selecione uma opÃ§Ã£o vÃ¡lida!!! ");
+					System.out.println("1 - Abertura de conta: ");
+					System.out.println("2 - Acesso a uma conta existente: ");
+					System.out.println("3 - Sair: ");
+					op = leia.next().charAt(0);
+				}
 
 			}
 			System.out.println("Continua S/N");
-			saida = t.next().toUpperCase().charAt(0);
+			saida = leia.next().toUpperCase().charAt(0);
 			if (saida == 'N') {
-				System.out.println("PROGRAMA FINALIZADO..");
 				break;
 			}
 
-		}
-		System.out.println("NUMERO DE OPERAÇÕES CONCLUIDAS");
+		} while (true);
 
+	}
+
+	public static void inseriLinha(int tamanho, String simbolo) {
+		for (int i = 0; i < tamanho; i++) {
+			System.out.print(simbolo);
+		}
+		System.out.println();
 	}
 }

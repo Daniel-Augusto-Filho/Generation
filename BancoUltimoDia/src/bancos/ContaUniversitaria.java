@@ -1,6 +1,6 @@
 package bancos;
 
-public class ContaUniversitaria extends ContaCorrente{
+public class ContaUniversitaria extends Conta{
 	private double emprestimoUniversidade;
 	private double saldo;
 	
@@ -11,7 +11,8 @@ public class ContaUniversitaria extends ContaCorrente{
 		
 	}
 	
-	public ContaUniversitaria(int numeroConta, String CPF, double emprestimoUniversidade, double saldo) {
+	public ContaUniversitaria(int numeroConta, String CPF, double emprestimoUniversidade, double saldo) 
+	{
 		super(numeroConta, CPF);
 		this.emprestimoUniversidade = emprestimoUniversidade;
 		this.saldo = saldo;
